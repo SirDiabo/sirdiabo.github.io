@@ -1,6 +1,1212 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SirDiabo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --bg-color: #0a0a0a;
+            --bg-secondary: #151515;
+            --text-color: #f8fafc;
+            --text-secondary: #a8b2c7;
+            --accent-color: #ffffff;
+            --accent-hover: #e5e5e5;
+            --card-bg: #1e1e1e;
+            --border-color: #334155;
+            --success-color: #10b981;
+            --gradient: linear-gradient(135deg, var(--accent-color), #d1d5db);
+            --font-family: 'Inter', sans-serif;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            will-change: transform;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-50px, -30px) rotate(1deg); }
+            66% { transform: translate(50px, 30px) rotate(-1deg); }
+        }
+
+        /* Fixed Navigation */
+        .nav-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 12px 0;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-fixed.show {
+            transform: translateY(0);
+        }
+
+        .nav-fixed nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .nav-fixed nav a {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        /* Scroll to top button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--gradient);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .scroll-to-top:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            text-align: center;
+            padding: 120px 0 80px;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            background: var(--gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            animation: slideUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-weight: 400;
+            animation: slideUp 1s ease-out 0.2s both;
+        }
+
+        .typo-fix {
+            color: var(--text-color);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 40px;
+            animation: slideUp 1s ease-out 0.4s both;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        nav a:hover, nav a:focus {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-color);
+            outline: none;
+            color: var(--bg-color);
+        }
+
+        nav a:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        nav a:hover::before {
+            left: 0;
+        }
+
+        nav a:hover {
+            color: var(--bg-color);
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            background: var(--gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+            border-radius: 20px;
+        }
+
+        .project-card:hover, .project-card:focus-within {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent-color);
+        }
+
+        .project-card:hover::before {
+            opacity: 0.03;
+        }
+
+        /* Image placeholder */
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+
+        .project-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-info {
+            padding: 32px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        .project-meta {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .project-link:hover, .project-link:focus {
+            color: var(--accent-hover);
+            transform: translateX(4px);
+            outline: none;
+        }
+
+        .project-link:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        .project-link::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+
+        .project-link:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .skill-category {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover, .skill-category:focus-within {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-color);
+        }
+
+        .skill-category h3 {
+            color: var(--accent-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .skills-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            row-gap: 24px;
+            column-gap: 12px;
+        }
+
+        .skill-item {
+            background: var(--bg-secondary);
+            color: var(--text-color);
+            padding: 8px 32px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .skill-item.expert::after {
+            content: 'Expert';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .skill-item.intermediate::after {
+            content: 'Intermediate';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .skill-item.beginner::after {
+            content: 'Beginner';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .skill-item:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            transform: scale(1.05);
+        }
+
+        .skill-item:hover::after {
+            opacity: 1;
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .gallery-item {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover, .gallery-item:focus-within {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .gallery-item img, .gallery-item video, .gallery-item iframe {
+            width: 100%;
+            height: auto;
+            min-height: 200px;
+            object-fit: cover;
+        }
+
+        .gallery-item iframe {
+            aspect-ratio: 16/9;
+            height: auto;
+        }
+
+        .gallery-caption {
+            padding: 20px;
+            color: var(--text-secondary);
+        }
+
+        /* About Section */
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 48px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .about-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .social-links {
+            text-align: center;
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-block;
+            border: none;
+            background: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            padding: 8px;
+        }
+
+        .social-link:hover, .social-link:focus {
+            transform: translateY(-4px);
+            outline: none;
+        }
+
+        .social-link:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        .social-link img {
+            width: 64px;
+            height: 64px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .social-link:hover img {
+            filter: brightness(1.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .footer-content a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-content a:hover, .footer-content a:focus {
+            color: var(--accent-hover);
+            outline: none;
+        }
+
+        .footer-content a:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            header {
+                padding: 80px 0 60px;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-content {
+                padding: 32px 24px;
+            }
+            
+            nav {
+                gap: 12px;
+            }
+            
+            nav a {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .scroll-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+
+            .social-links {
+                gap: 16px;
+            }
+
+            .social-link img {
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        /* Loading animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection styling */
+        ::selection {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        /* Loading states */
+        .loading {
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
 <body>
-<h1>( ͡° ͜ʖ ͡°) UNDER CONSTRUCTION ¯\_(ツ)_/¯</h1>
+    <div class="bg-animation"></div>
+
+    <!-- Fixed Navigation -->
+    <div class="nav-fixed" id="fixedNav">
+        <div class="container">
+            <nav>
+                <a href="#top">To Top</a>
+                <a href="#projects">Projects</a>
+                <a href="#skills">Skills</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#about">About Me</a>
+                <a href="mailto:sirdiabo.business@gmail.com">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Scroll to top button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">↑</button>
+
+    <div class="container">
+        <header>
+            <div class="hero-content">
+                <h1 class="hero-title">SirDiabo</h1>
+                <p class="hero-subtitle">Game Development <span class="typo-fix">Generalist</span></p>
+                <nav>
+                    <a href="#projekte">Projects</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#gallery">Gallery</a>
+                    <a href="#about">About Me</a>
+                    <a href="mailto:sirdiabo.business@gmail.com">Contact</a>
+                </nav>
+            </div>
+        </header>
+
+        <section id="projekte">
+            <div class="section-header">
+                <h2 class="section-title">Released Projects</h2>
+                <p class="section-subtitle">Selection of my best released works</p>
+            </div>
+            <div class="portfolio-grid">
+                <div class="project-card">
+                    <img class="project-image" src="https://img.itch.zone/aW1nLzE4NTMyOTU2LmdpZg==/105x83%23/gbDOw7.gif" alt="Bild vom SCP Broken God Demo Projekt">
+                    <div class="project-info">
+                        <h3 class="project-title">SCP: Broken God Demo</h3>
+                        <p class="project-description">A story-based first-person action shooter set in the SCP universe. The protagonist must navigate to the exit after a containment breach while defending against multiple threats.</p>
+                        <div class="tags">
+                            <span class="tag">Unreal Engine</span>
+                            <span class="tag">Blueprints</span>
+                            <span class="tag">Blender</span>
+                            <span class="tag">Texturing</span>
+                            <span class="tag">Level Design</span>
+                            <span class="tag">Voice Acting</span>
+                        </div>
+                        <a href="https://digital-arson.itch.io/broken-god-demo" target="_blank" class="project-link">Project Page (Itch.io)</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img class="project-image" src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2405970/header.jpg?t=1741720014" alt="Bild vom Snowboard League Projekt">
+                    <div class="project-info">
+                        <h3 class="project-title">Snowboard League</h3>
+                        <p class="project-description">A multiplayer snowboarding arcade racer where you can fully customize your character. Play against friends in multiplayer, against others via lobby browser, or compete against your own best times in singleplayer.</p>
+                        <div class="tags">
+                            <span class="tag">Unreal Engine</span>
+                            <span class="tag">Blueprints</span>
+                            <span class="tag">Blender</span>
+                            <span class="tag">Multiplayer</span>
+                            <span class="tag">Steam Integration</span>
+                            <span class="tag">Level Design</span>
+                        </div>
+                        <a href="https://store.steampowered.com/app/2405970/Snowboard_League/" target="_blank" class="project-link">Project Page (Steam)</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img class="project-image" src="https://img.itch.zone/aW1nLzE3MTcxMDMyLmdpZg==/105x83%23/j1h7iY.gif" alt="Bild vom Dots and Dashes Projekt">
+                    <div class="project-info">
+                        <h3 class="project-title">Dots and Dashes</h3>
+                        <p class="project-description">A morse code horror game set in a 20th century war scenario. The protagonist is a spy who intercepts radios and relays information using morse code. The player must manage hunger and sleep while hiding from patrols.</p>
+                        <div class="tags">
+                            <span class="tag">Unreal Engine</span>
+                            <span class="tag">Blueprints</span>
+                            <span class="tag">Blender</span>
+                            <span class="tag">Horror</span>
+                            <span class="tag">Survival</span>
+                            <span class="tag">Morsecode</span>
+                        </div>
+                        <a href="https://sirdiabo.itch.io/dots-and-dashes" target="_blank" class="project-link">Project Page (Itch.io)</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <img class="project-image" src="https://img.itch.zone/aW1nLzEzOTk4NTIyLmdpZg==/105x83%23/YjxLYr.gif" alt="Bild vom Horder Projekt">
+                    <div class="project-info">
+                        <h3 class="project-title">Horder</h3>
+                        <p class="project-description">Horder is a first-person wave shooter where you can level various abilities while the difficulty progressively increases.</p>
+                        <div class="tags">
+                            <span class="tag">Unreal Engine</span>
+                            <span class="tag">Blueprints</span>
+                            <span class="tag">Blender</span>
+                            <span class="tag">Wave Shooter</span>
+                            <span class="tag">RPG Elements</span>
+                        </div>
+                        <a href="https://sirdiabo.itch.io/horder" target="_blank" class="project-link">Project Page (Itch.io)</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img class="project-image" src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2003690/header.jpg?t=1682221780" alt="Bild vom Skies Of Blue Projekt">
+                    <div class="project-info">
+                        <h3 class="project-title">Skies Of Blue: Remake</h3>
+                        <p class="project-description">A remake of my first project. A first-person puzzle-platformer-shooter where you fight through levels using various key items. New mechanics are introduced in all 10 levels, and best times are saved after completing each level for speedrun challenges.</p>
+                        <div class="tags">
+                            <span class="tag">Unreal Engine</span>
+                            <span class="tag">Blueprints</span>
+                            <span class="tag">Puzzle Platformer</span>
+                            <span class="tag">Level Design</span>
+                            <span class="tag">Speedrun</span>
+                        </div>
+                        <a href="https://store.steampowered.com/app/2003690/Skies_Of_Blue_Remake/" target="_blank" class="project-link">Project Page (Steam)</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img class="project-image" src="https://img.itch.zone/aW1nLzEzODA2NjY0LnBuZw==/105x83%23/Tffp9v.png" alt="Bild vom ACORN-A-THON Projekt">
+                    <div class="project-info">
+                        <h3 class="project-title">ACORN-A-THON</h3>
+                        <p class="project-description">A small game jam project. Acorn-a-thon is a 3D puzzle-platformer and collectathon where the player controls a cute fox. You must overcome obstacles and fight small pumpkin monsters to collect acorns.</p>
+                        <div class="tags">
+                            <span class="tag">Unreal Engine</span>
+                            <span class="tag">Game Jam</span>
+                            <span class="tag">Collectathon</span>
+                            <span class="tag">Blender</span>
+                        </div>
+                        <a href="https://sirdiabo.itch.io/acorn-a-thon" target="_blank" class="project-link">Project Page (Itch.io)</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="section-header">
+                <h2 class="section-title">Skills & Tools</h2>
+                <p class="section-subtitle">My technical knowledge and tools used</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Game Development</h3>
+                    <ul class="skills-list">
+                        <li class="skill-item expert">Unreal Engine</li>
+                        <li class="skill-item expert">Unreal Blueprints</li>
+                        <li class="skill-item expert">Game Mechanics</li>
+                        <li class="skill-item expert">Version Control (Github)</li>
+                        <li class="skill-item intermediate">Level Design</li>
+                        <li class="skill-item intermediate">Multiplayer/Netcode</li>
+                        <li class="skill-item intermediate">Steam Integration</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>3D Art & Animation</h3>
+                    <ul class="skills-list">
+                        <li class="skill-item expert">Blender</li>
+                        <li class="skill-item expert">3D Modeling</li>
+                        <li class="skill-item expert">Animation</li>
+                        <li class="skill-item expert">Low-Poly Optimization</li>
+                        <li class="skill-item intermediate">Rigging</li>
+                        <li class="skill-item intermediate">UV-Unwrapping</li>
+                        <li class="skill-item intermediate">Texturing</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Audio & Visual</h3>
+                    <ul class="skills-list">
+                        <li class="skill-item intermediate">FL Studio</li>
+                        <li class="skill-item expert">Audacity</li>
+                        <li class="skill-item expert">GIMP</li>
+                        <li class="skill-item intermediate">DaVinci Resolve</li>
+                        <li class="skill-item beginner">Voice Acting</li>
+                        <li class="skill-item beginner">Sound Design</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Sprachen</h3>
+                    <ul class="skills-list">
+                        <li class="skill-item expert">German (native speaker)</li>
+                        <li class="skill-item expert">English (fluent)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery">
+            <div class="section-header">
+                <h2 class="section-title">Gallery</h2>
+                <p class="section-subtitle">Insights into my work and development processes</p>
+            </div>
+            <div class="gallery-grid">
+
+                <article class="gallery-item">
+                    <img src="https://storage.ko-fi.com/cdn/useruploads/display/24a5ded6-08af-478e-8697-28f1832606df_jztud.png" alt="Snowboard League Charakter - 3D modelliert, texturiert und geriggt in Blender" loading="lazy">
+                    <div class="gallery-caption">
+                        <p>Snowboard League Character - Fully modeled, textured and rigged</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <img src="https://storage.ko-fi.com/cdn/useruploads/display/bbf4307e-a09a-469b-84d9-7140ed00b4d5_hdftg.png" alt="Snowboard League In-Game Screenshot der winterlichen Spielumgebung" loading="lazy">
+                    <div class="gallery-caption">
+                        <p>Snowboard League - In-Game Screenshot of the Game Environment</p>
+                    </div>
+                </article>
+                
+                <article class="gallery-item">
+                    <img src="Assets/SBL Time Trials.gif" alt="Snowboard League Time-Trials Singleplayer Modus Gameplay" loading="lazy">
+                    <div class="gallery-caption">
+                        <p>Snowboard League Time Trials - Single-player mode with competition against previous best times</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <img src="Assets/pengiwave.gif" alt="Snowboard League Pinguin Charakter Wink Animation im Hauptmenü" loading="lazy">
+                    <div class="gallery-caption">
+                        <p>Snowboard League Penguin Wink Animation - A wink animation that plays when entering the main menu</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <iframe width="1332" height="749" src="https://www.youtube.com/embed/bqdEwnxSYmQ" title="SNOWBOARD LEAGUE OST - Summit Slide" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <div class="gallery-caption">
+                        <p>Snowboard League Musik - The Track "Summit Slide", from my Project Snowboard League</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <iframe width="1332" height="749" src="https://www.youtube.com/embed/CuYGahoVR2A" title="SNOWBOARD LEAGUE OST - Glowing Gateway" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <div class="gallery-caption">
+                        <p>Snowboard League Musik - The Track "Glowing Gateway", from my Project Snowboard League</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <iframe width="1332" height="749" src="https://www.youtube.com/embed/G1HDNFAfru0" title="SNOWBOARD LEAGUE OST - Balls Of Snow" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <div class="gallery-caption">
+                        <p>Snowboard League Music - The Track "Balls of Snow", from my Project Snowboard League</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <video width="320" height="auto" controls loading="lazy">
+                        <source src="Assets/BrokenGodDemo-Gameplay.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="gallery-caption">
+                        <p>SCP:Broken God Demo Gameplay – Combat, Puzzles and exploration, Gameplay many aspects of SCP:BG Demo</p>
+                    </div>
+                </article>
+                
+                <article class="gallery-item">
+                    <iframe width="1332" height="749" src="https://www.youtube.com/embed/OLA03xlzocE" title="Practice Modeling, Animating and Programming Time-lapse" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <div class="gallery-caption">
+                        <p>Modeling, Animating and Programming Time-Lapse - A Small Super Mario 2D Platformer Project Timelapse</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <img src="Assets/morse.gif" alt="Dots and Dashes Morse Code System Interface im Horror Spiel" loading="lazy">
+                    <div class="gallery-caption">
+                        <p>Dots And Dashes Morse Code - The Morse Code System in Dots and Dashes</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <img src="Assets/roam.gif" alt="Dots and Dashes Umgebung Erkundung - First Person Horror Gameplay" loading="lazy">
+                    <div class="gallery-caption">
+                        <p>Dots And Dashes Roaming - In Dots and Dashes you can explore the surroundings</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <img src="https://storage.ko-fi.com/cdn/useruploads/display/8c109b31-7aa1-4a98-bd93-782291028832_gobli.gif" alt="Goblin 3D Character Animation in Blender erstellt" loading="lazy">
+                    <div class="gallery-caption">
+                        <p>Goblin Character Model - 3D Animation in Blender</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <img src="https://storage.ko-fi.com/cdn/useruploads/display/d266d761-bb10-41eb-981b-407586078b3e_surfacebuildings.png" alt="Modulare Häuser 3D Models für Level Design in Blender erstellt" loading="lazy">
+                    <div class="gallery-caption">
+                        <p>Houses 3D Models in Blender - Modular Level Design</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <img src="Assets/room generator.gif" alt="Seed-Based Dungeon Generator Blueprint System in Unreal Engine" loading="lazy">
+                    <div class="gallery-caption">
+                        <p>Seed-Based, Dungeon Generator - Fully Multiplayer Replicated and Modular, made with Unreal Blueprints</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <video width="320" height="auto" controls loading="lazy">
+                        <source src="Assets/Instruments.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="gallery-caption">
+                        <p>MIDI input in the latest project – use of keyboard and mouse or MIDI instruments possible</p>
+                    </div>
+                </article>
+
+                <article class="gallery-item">
+                    <video width="320" height="auto" controls loading="lazy">
+                        <source src="Assets/Projectile Deflecting.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="gallery-caption">
+                        <p>Projectile Parrying - Use a shield or a timed melee attack to send projectiles back</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="section-header">
+                <h2 class="section-title">About Me</h2>
+                <p class="section-subtitle">My passion for game development</p>
+            </div>
+            
+            <div class="about-content">
+                <p>
+                    I'm a highly motivated game development generalist with over five years of self-taught experience in everything game development involves. Specializing in Unreal Engine and Blender, I also have extensive knowledge of FL Studio (music), Audacity (SFX), GIMP (image editing), and DaVinci Resolve (video editing). 
+                </p>
+                <p>
+                    My focus is on creating technically and visually optimized game environments. Thanks to my in-depth knowledge of Unreal Blueprints, I can not only create assets but also integrate them into game mechanics and develop complex gameplay systems.
+                </p>
+                <p>
+                    I have a particular passion for 5th-generation video games (N64, PlayStation 1) and love turning my creative ideas into reality. My goal is to work in a creative team to create innovative and engaging gaming experiences that excite and inspire players.
+                </p>
+                <p>
+                    Support on Ko-Fi is greatly appreciated!!
+                </p>
+                <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#8738e0', 'M4M7NN98R');kofiwidget2.draw();</script> 
+            </div>
+
+            <div class="social-links">
+                <a href="https://store.steampowered.com/search/?developer=SirDiabo" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Steam Developer Site SirDiabo">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fvectorified.com%2Fimages%2Fsteam-game-icon-26.png&f=1&nofb=1&ipt=ba0a7a4dc5057544ee08e448cb6e89f8732291fa81c5b6e29de9afcdfa79abb8" alt="Steam Logo">
+                </a>
+                <a href="https://sirdiabo.itch.io/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Itch.io Profile SirDiabo">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn2.steamgriddb.com%2Ficon%2Fa72437afb97803a6acb5420ef8b8a90f.png&f=1&nofb=1&ipt=4ab24deeba3bb222659099255d6e5bd73fb5d9f28510de37b8405637f7049976" alt="Itch.io Logo">
+                </a>
+                <a href="https://ko-fi.com/sirdiabo" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="KoFi Profile SirDiabo">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fuploads-ssl.webflow.com%2F5c14e387dab576fe667689cf%2F5ca5bf1dff3c03fbf7cc9b3c_Kofi_logo_RGB_rounded.png&f=1&nofb=1&ipt=1a7c223f760c324469e5af25665bcf991dc4c73e08cf34f0eda69ffce092e05e" alt="KoFi Logo">
+                </a>
+                <a href="https://github.com/SirDiabo/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profil SirDiabo">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F25%2F25231.png&f=1&nofb=1&ipt=deaa21e59023d54526edfc07c5aec4417d7928602cbba086223420c44a53bdb0" alt="GitHub Logo">
+                </a>
+                <a href="https://www.youtube.com/@sirdiabo" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel SirDiabo">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ffreepngimg.com%2Fdownload%2Fyoutube%2F77758-logo-live-computer-youtube-icons-png-download-free.png&f=1&nofb=1&ipt=d93ac72f4ba743604d536955abbc12814961d98f1c6cf2168008f5f8c3a81191" alt="YouTube Logo">
+                </a>
+                <a href="https://bsky.app/profile/sirdiabo.itch.io" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="BlueSky Profile SirDiabo">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fladiesgamers.com%2Fwp-content%2Fuploads%2F2025%2F04%2FBluesky-Logo-Vector.svg-.png&f=1&nofb=1&ipt=c9f19e10f17bd6722383d65fd4a191d452b050876aa70e795855317228f4b7b2" alt="BlueSky Logo">
+                </a>
+            </div>
+        </section>
+    </div>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <p>&copy; 2025 SirDiabo. All rights reserved. | <a href="mailto:sirdiabo.business@gmail.com">sirdiabo.business@gmail.com</a></p>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+        // Smooth scrolling and navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const fixedNav = document.getElementById('fixedNav');
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            let lastScrollTop = 0;
+
+            // Show/hide fixed navigation and scroll to top button
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // Fixed navigation
+                if (scrollTop > 200) {
+                    fixedNav.classList.add('show');
+                } else {
+                    fixedNav.classList.remove('show');
+                }
+
+                // Scroll to top button
+                if (scrollTop > 300) {
+                    scrollToTopBtn.classList.add('show');
+                } else {
+                    scrollToTopBtn.classList.remove('show');
+                }
+
+                lastScrollTop = scrollTop;
+            });
+
+            // Scroll to top functionality
+            scrollToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Lazy loading for images
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.classList.add('loading');
+                        
+                        const tempImg = new Image();
+                        tempImg.onload = function() {
+                            img.src = this.src;
+                            img.classList.remove('loading');
+                        };
+                        tempImg.src = img.src;
+                        
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => {
+                imageObserver.observe(img);
+            });
+
+            // Add fade-in animation to sections on scroll
+            const sections = document.querySelectorAll('section');
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            // External link handling
+            const externalLinks = document.querySelectorAll('a[href^="http"]');
+            externalLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Add loading state
+                    this.style.opacity = '0.7';
+                    setTimeout(() => {
+                        this.style.opacity = '1';
+                    }, 1000);
+                });
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    // Remove focus from any focused element
+                    document.activeElement.blur();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
