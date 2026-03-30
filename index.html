@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SirDiabo – Game Development Generalist with 5+ years of self-taught experience. Browse released games on Steam and Itch.io, open source tools, 3D art, music, and more.">
     <title>SirDiabo</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -64,8 +65,9 @@
             left: 0;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.13) 0%, transparent 45%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.17) 0%, transparent 45%),
+                        radial-gradient(circle at 55% 55%, rgba(255, 255, 255, 0.07) 0%, transparent 35%);
             animation: float 20s ease-in-out infinite;
             will-change: transform;
         }
@@ -347,13 +349,6 @@
             font-weight: 600;
             color: var(--text-color);
             margin-bottom: 8px;
-        }
-
-        .project-meta {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 16px;
-            font-weight: 500;
         }
 
         .project-description {
@@ -700,6 +695,18 @@
             animation: fadeIn 0.6s ease-out;
         }
 
+        /* Respect user's motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
@@ -799,7 +806,7 @@
                 </div>
 
                 <div class="project-card">
-                    <img class="project-image" src="Assets/covers/scpbgcover.gif" alt="Bild vom SCP Broken God Demo Projekt">
+                    <img class="project-image" src="Assets/covers/scpbgcover.gif" alt="Animated image of the SCP: Broken God Demo project">
                     <div class="project-info">
                         <h3 class="project-title">SCP: Broken God Demo</h3>
                         <p class="project-description">A story-based first-person action shooter set in the SCP universe. The protagonist must navigate to the exit after a containment breach while defending against multiple threats.</p>
@@ -985,7 +992,7 @@
                     </ul>
                 </div>
                 <div class="skill-category">
-                    <h3>Sprachen</h3>
+                    <h3>Languages</h3>
                     <ul class="skills-list">
                         <li class="skill-item expert">German (native speaker)</li>
                         <li class="skill-item expert">English (fluent)</li>
@@ -1002,7 +1009,7 @@
             <div class="gallery-grid">
                 
                 <article class="gallery-item">
-                    <video width="320" height="auto" controls loading="lazy">
+                    <video width="320" height="auto" controls preload="none">
                         <source src="Assets/compressed Halavein Tailer 2.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -1019,7 +1026,7 @@
                 </article>
             
                 <article class="gallery-item">
-                    <video width="320" height="auto" controls loading="lazy">
+                    <video width="320" height="auto" controls preload="none">
                         <source src="Assets/Instruments.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -1029,7 +1036,7 @@
                 </article>
             
                 <article class="gallery-item">
-                    <video width="320" height="auto" controls loading="lazy">
+                    <video width="320" height="auto" controls preload="none">
                         <source src="Assets/Projectile Deflecting.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -1039,42 +1046,42 @@
                 </article>
 
                 <article class="gallery-item">
-                    <img src="https://storage.ko-fi.com/cdn/useruploads/display/8c109b31-7aa1-4a98-bd93-782291028832_gobli.gif" alt="Goblin 3D Character Animation in Blender erstellt" loading="lazy">
+                    <img src="https://storage.ko-fi.com/cdn/useruploads/display/8c109b31-7aa1-4a98-bd93-782291028832_gobli.gif" alt="Goblin 3D character model animated in Blender" loading="lazy">
                     <div class="gallery-caption">
                         <p>Goblin Character Model - 3D Animation in Blender</p>
                     </div>
                 </article>
 
                 <article class="gallery-item">
-                    <img src="https://storage.ko-fi.com/cdn/useruploads/display/d266d761-bb10-41eb-981b-407586078b3e_surfacebuildings.png" alt="Modulare Häuser 3D Models für Level Design in Blender erstellt" loading="lazy">
+                    <img src="https://storage.ko-fi.com/cdn/useruploads/display/d266d761-bb10-41eb-981b-407586078b3e_surfacebuildings.png" alt="Modular house 3D models for level design, made in Blender" loading="lazy">
                     <div class="gallery-caption">
                         <p>Houses 3D Models in Blender - Modular Level Design</p>
                     </div>
                 </article>
                 
                 <article class="gallery-item">
-                    <img src="https://storage.ko-fi.com/cdn/useruploads/display/24a5ded6-08af-478e-8697-28f1832606df_jztud.png" alt="Snowboard League Charakter - 3D modelliert, texturiert und geriggt in Blender" loading="lazy">
+                    <img src="https://storage.ko-fi.com/cdn/useruploads/display/24a5ded6-08af-478e-8697-28f1832606df_jztud.png" alt="Snowboard League character - fully 3D modeled, textured and rigged in Blender" loading="lazy">
                     <div class="gallery-caption">
                         <p>Snowboard League Character - Fully modeled, textured and rigged</p>
                     </div>
                 </article>
 
                 <article class="gallery-item">
-                    <img src="https://storage.ko-fi.com/cdn/useruploads/display/bbf4307e-a09a-469b-84d9-7140ed00b4d5_hdftg.png" alt="Snowboard League In-Game Screenshot der winterlichen Spielumgebung" loading="lazy">
+                    <img src="https://storage.ko-fi.com/cdn/useruploads/display/bbf4307e-a09a-469b-84d9-7140ed00b4d5_hdftg.png" alt="Snowboard League in-game screenshot of the winter game environment" loading="lazy">
                     <div class="gallery-caption">
                         <p>Snowboard League - In-Game Screenshot of the Game Environment</p>
                     </div>
                 </article>
                 
                 <article class="gallery-item">
-                    <img src="Assets/SBL Time Trials.gif" alt="Snowboard League Time-Trials Singleplayer Modus Gameplay" loading="lazy">
+                    <img src="Assets/SBL Time Trials.gif" alt="Snowboard League Time Trials singleplayer mode gameplay" loading="lazy">
                     <div class="gallery-caption">
                         <p>Snowboard League Time Trials - Single-player mode with competition against previous best times</p>
                     </div>
                 </article>
 
                 <article class="gallery-item">
-                    <img src="Assets/pengiwave.gif" alt="Snowboard League Pinguin Charakter Wink Animation im Hauptmenü" loading="lazy">
+                    <img src="Assets/pengiwave.gif" alt="Snowboard League penguin character wave animation in the main menu" loading="lazy">
                     <div class="gallery-caption">
                         <p>Snowboard League Penguin Wink Animation - A wink animation that plays when entering the main menu</p>
                     </div>
@@ -1095,7 +1102,7 @@
                 </article>
 
                 <article class="gallery-item">
-                    <video width="320" height="auto" controls loading="lazy">
+                    <video width="320" height="auto" controls preload="none">
                         <source src="Assets/BrokenGodDemo-Gameplay.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -1105,21 +1112,21 @@
                 </article>
                 
                 <article class="gallery-item">
-                    <iframe width="1332" height="749" src="https://youtu.be/OLA03xlzocE" title="Practice Modeling, Animating and Programming Time-lapse" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <iframe width="1332" height="749" src="https://www.youtube.com/embed/OLA03xlzocE" title="Practice Modeling, Animating and Programming Time-lapse" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     <div class="gallery-caption">
                         <p>Modeling, Animating and Programming Time-Lapse - A Small Super Mario 2D Platformer Project Timelapse</p>
                     </div>
                 </article>
 
                 <article class="gallery-item">
-                    <img src="Assets/morse.gif" alt="Dots and Dashes Morse Code System Interface im Horror Spiel" loading="lazy">
+                    <img src="Assets/morse.gif" alt="Dots and Dashes morse code system interface in the horror game" loading="lazy">
                     <div class="gallery-caption">
                         <p>Dots And Dashes Morse Code - The Morse Code System in Dots and Dashes</p>
                     </div>
                 </article>
 
                 <article class="gallery-item">
-                    <img src="Assets/roam.gif" alt="Dots and Dashes Umgebung Erkundung - First Person Horror Gameplay" loading="lazy">
+                    <img src="Assets/roam.gif" alt="Dots and Dashes environment exploration - first person horror gameplay" loading="lazy">
                     <div class="gallery-caption">
                         <p>Dots And Dashes Roaming - In Dots and Dashes you can explore the surroundings</p>
                     </div>
@@ -1159,7 +1166,7 @@
                 <a href="https://ko-fi.com/sirdiabo" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="KoFi Profile SirDiabo">
                     <img src="Assets/LinkLogos/kofi.png" alt="KoFi Logo">
                 </a>
-                <a href="https://github.com/SirDiabo/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profil SirDiabo">
+                <a href="https://github.com/SirDiabo/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile SirDiabo">
                     <img src="Assets/LinkLogos/github.png" alt="GitHub Logo">
                 </a>
                 <a href="https://www.youtube.com/@sirdiabo" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel SirDiabo">
@@ -1175,7 +1182,7 @@
         <footer>
             <div class="container">
                 <div class="footer-content">
-                    <p>&copy; 2025 SirDiabo. All rights reserved. | <a href="mailto:sirdiabo.business@gmail.com">sirdiabo.business@gmail.com</a></p>
+                    <p>&copy; 2026 SirDiabo. All rights reserved. | <a href="mailto:sirdiabo.business@gmail.com">sirdiabo.business@gmail.com</a></p>
                 </div>
             </div>
         </footer>
